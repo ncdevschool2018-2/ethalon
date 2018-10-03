@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Book} from '../model/book';
@@ -9,10 +9,11 @@ import {Book} from '../model/book';
 // Data service
 export class BooksService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   // Ajax request for books data
-  getBooks (): Observable<Book[]> {
-    return this.http.get<Book[]>('http://localhost:4200/assets/data/books.json');
+  getBooks(): Observable<Book[]> {
+    return this.http.get<Book[]>('http://localhost:8090/api/books');
   }
 }
