@@ -1,0 +1,21 @@
+<h1>Books component:</h1>
+<div>
+  <table>
+    <thead>
+      <th>Id</th>
+      <th>Name</th>
+    </thead>
+    <tbody>
+      <!-- FOR loop example -->
+      <tr *ngFor="let book of books">
+        <td>{{book.id}}</td>
+        <td>{{book.name}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div>
+  <!-- One way binding example -->
+  <p>Books count: {{books.length}}</p>
+</div>
+
