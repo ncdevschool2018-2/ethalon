@@ -14,6 +14,6 @@ export class BooksService {
 
   // Ajax request for books data
   getBooks(): Observable<Book[]> {
-    return this.http.get<Book[]>('http://localhost:8090/api/books');
+    return this.http.get<Book[]>('/api/books');
   }
 }
