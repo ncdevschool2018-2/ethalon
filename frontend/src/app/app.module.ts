@@ -4,11 +4,13 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import { BooksComponent } from './books/books.component';
+import { BillingAccountsComponent } from './billing-accounts/billing-accounts.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BooksComponent
+    BooksComponent,
+    BillingAccountsComponent
   ],
   imports: [
     BrowserModule,
