@@ -9,5 +9,5 @@ public interface BillingAccountDataService {
     List<BillingAccountViewModel> getAll();
     BillingAccountViewModel getBillingAccountById(Long id);
     BillingAccountViewModel saveBillingAccount(BillingAccountViewModel account);
-    ResponseEntity deleteBillingAccount(Long id);
+    void deleteBillingAccount(Long id);
 }

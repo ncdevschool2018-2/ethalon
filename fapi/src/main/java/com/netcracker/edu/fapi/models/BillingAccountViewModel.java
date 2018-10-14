@@ -8,6 +8,7 @@ public class BillingAccountViewModel {
     private int id;
     private String address;
     private String username;
+    private String email;
 
     public BillingAccountViewModel() {
     }
@@ -16,6 +17,7 @@ public class BillingAccountViewModel {
         this.id = id;
         this.address = address;
         this.username = username;
+        this.email = email;
     }
 
     public int getId() {
@@ -40,5 +42,13 @@ public class BillingAccountViewModel {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

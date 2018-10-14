@@ -1,6 +1,7 @@
 package com.netcracker.edu.backend.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "billing_account")
@@ -10,10 +11,12 @@ public class BillingAccount {
     private long id;
     private String address;
     private String username;
+    private String email;
 
-    public BillingAccount(String address, String username) {
+    public BillingAccount(String address, String username, String email) {
         this.address = address;
         this.username = username;
+        this.email = email;
     }
 
     public BillingAccount() {
@@ -44,24 +47,29 @@ public class BillingAccount {
         this.username = username;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         BillingAccount that = (BillingAccount) o;
-
-        if (id != that.id) return false;
-        if (address != null ? !address.equals(that.address) : that.address != null) return false;
-        return username != null ? username.equals(that.username) : that.username == null;
+        return id == that.id &&
+                Objects.equals(address, that.address) &&
+                Objects.equals(username, that.username) &&
+                Objects.equals(email, that.email);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (address != null ? address.hashCode() : 0);
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        return result;
+
+        return Objects.hash(id, address, username, email);
     }
 
     @Override
@@ -70,6 +78,7 @@ public class BillingAccount {
             "id=" + id +
             ", address='" + address + '\'' +
             ", username='" + username + '\'' +
+            ", email='" + email + '\'' +
             '}';
     }
 }

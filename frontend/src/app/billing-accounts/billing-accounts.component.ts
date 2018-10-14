@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 import {BillingAccount} from "../model/billing-account";
 import {BillingAccountService} from "../service/billing/billing-account.service";
+import {BsModalRef, BsModalService} from "ngx-bootstrap";
+import {Subscription} from "rxjs/internal/Subscription";
 
 @Component({
   selector: 'app-billing-accounts',
@@ -8,21 +10,74 @@ import {BillingAccountService} from "../service/billing/billing-account.service"
 })
 export class BillingAccountsComponent implements OnInit {
 
-  billingAccounts: BillingAccount[];
+  public editMode = false;
+
+  public billingAccounts: BillingAccount[];
+  public editableBa: BillingAccount = new BillingAccount();
+  public modalRef: BsModalRef; //we need a variable to keep a reference of our modal. This is going to be used to close the modal.
+
+  private subscriptions: Subscription[] = [];
+
 
   // Dependency injection for BillingAccountService into Billing
-  constructor(private billingAccountService: BillingAccountService) { }
+  constructor(private billingAccountService: BillingAccountService,
+              private modalService: BsModalService) { //to show the modal, we also need the ngx-bootstrap service
+  }
 
   // Calls on component init
   ngOnInit() {
+    this.loadBillingAccounts();
+  }
+
+  public _closeModal(): void {
+    this.modalRef.hide();
+  }
+
+  public _openModal(template: TemplateRef<any>, billingAccount: BillingAccount): void {
+
+    if (billingAccount) {
+      this.editMode = true;
+      this.editableBa = BillingAccount.cloneBase(billingAccount);
+    } else {
+      this.editMode = false;
+    }
+
+    this.modalRef = this.modalService.show(template); // and when the user clicks on the button to open the popup
+                                                      // we keep the modal reference and pass the template local name to the modalService.
+  }
+
+  public _addBillingAccount(): void {
+    this.subscriptions.push(this.billingAccountService.saveBillingAccount(this.editableBa).subscribe(() => {
+      this._updateBillingAccounts();
+      this.refreshBa();
+      this._closeModal();
+    }));
+  }
+
+  public _updateBillingAccounts(): void {
+    this.loadBillingAccounts();
+  }
+
+  public _deleteBillingAccount(billingAccountId: string): void {
+    this.subscriptions.push(this.billingAccountService.deleteBillingAccount(billingAccountId).subscribe(() => this._updateBillingAccounts()));
+  }
+
+  private refreshBa(): void {
+    this.editableBa = new BillingAccount();
+  }
+
+  private loadBillingAccounts(): void {
     // Get data from BillingAccountService
-    this.billingAccountService.getBillingAccounts().subscribe(accounts => {
+    this.subscriptions.push(this.billingAccountService.getBillingAccounts().subscribe(accounts => {
       // Parse json response into local array
       this.billingAccounts = accounts as BillingAccount[];
-
       // Check data in console
-      console.log(this.billingAccounts);
-    });
+      console.log(this.billingAccounts);// don't use console.log in angular :)
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
 }
