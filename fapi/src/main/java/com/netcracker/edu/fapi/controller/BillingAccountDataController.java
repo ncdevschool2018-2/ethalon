@@ -4,6 +4,7 @@ import com.netcracker.edu.fapi.models.BillingAccountViewModel;
 import com.netcracker.edu.fapi.service.BillingAccountDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class BillingAccountDataController {
     private BillingAccountDataService billingAccountDataService;
 
     @RequestMapping
-    public ResponseEntity<List<BillingAccountViewModel>> getAllBooks() {
+    public ResponseEntity<List<BillingAccountViewModel>> getAllBillingAccounts() {
         return ResponseEntity.ok(billingAccountDataService.getAll());
     }
 

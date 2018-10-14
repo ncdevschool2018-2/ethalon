@@ -3,6 +3,7 @@ import {BillingAccount} from "../model/billing-account";
 import {BillingAccountService} from "../service/billing/billing-account.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {Subscription} from "rxjs/internal/Subscription";
+import {Ng4LoadingSpinnerService} from "ng4-loading-spinner";
 
 @Component({
   selector: 'app-billing-accounts',
@@ -21,6 +22,7 @@ export class BillingAccountsComponent implements OnInit {
 
   // Dependency injection for BillingAccountService into Billing
   constructor(private billingAccountService: BillingAccountService,
+              private loadingService: Ng4LoadingSpinnerService,
               private modalService: BsModalService) { //to show the modal, we also need the ngx-bootstrap service
   }
 
@@ -39,6 +41,7 @@ export class BillingAccountsComponent implements OnInit {
       this.editMode = true;
       this.editableBa = BillingAccount.cloneBase(billingAccount);
     } else {
+      this.refreshBa();
       this.editMode = false;
     }
 
@@ -47,10 +50,13 @@ export class BillingAccountsComponent implements OnInit {
   }
 
   public _addBillingAccount(): void {
+    this.loadingService.show();
     this.subscriptions.push(this.billingAccountService.saveBillingAccount(this.editableBa).subscribe(() => {
       this._updateBillingAccounts();
       this.refreshBa();
       this._closeModal();
+      this.loadingService.hide();
+
     }));
   }
 
@@ -59,7 +65,10 @@ export class BillingAccountsComponent implements OnInit {
   }
 
   public _deleteBillingAccount(billingAccountId: string): void {
-    this.subscriptions.push(this.billingAccountService.deleteBillingAccount(billingAccountId).subscribe(() => this._updateBillingAccounts()));
+    this.loadingService.show();
+    this.subscriptions.push(this.billingAccountService.deleteBillingAccount(billingAccountId).subscribe(() => {
+      this._updateBillingAccounts();
+    }));
   }
 
   private refreshBa(): void {
@@ -67,12 +76,14 @@ export class BillingAccountsComponent implements OnInit {
   }
 
   private loadBillingAccounts(): void {
+    this.loadingService.show();
     // Get data from BillingAccountService
     this.subscriptions.push(this.billingAccountService.getBillingAccounts().subscribe(accounts => {
       // Parse json response into local array
       this.billingAccounts = accounts as BillingAccount[];
       // Check data in console
       console.log(this.billingAccounts);// don't use console.log in angular :)
+      this.loadingService.hide();
     }));
   }
 
