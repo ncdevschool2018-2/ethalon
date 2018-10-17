@@ -29,7 +29,7 @@ public class BillingAccountController {
         }
     }
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public Iterable<BillingAccount> getAllBillingAcounts() {
         return billingAccountService.getAllBillingAccounts();
     }

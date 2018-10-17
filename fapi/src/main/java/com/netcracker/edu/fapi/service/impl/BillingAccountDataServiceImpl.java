@@ -20,7 +20,7 @@ public class BillingAccountDataServiceImpl implements BillingAccountDataService 
     @Override
     public List<BillingAccountViewModel> getAll() {
         RestTemplate restTemplate = new RestTemplate();
-        BillingAccountViewModel[] billingAccountViewModelResponse = restTemplate.getForObject(backendServerUrl + "/api/billing-accounts/all", BillingAccountViewModel[].class);
+        BillingAccountViewModel[] billingAccountViewModelResponse = restTemplate.getForObject(backendServerUrl + "/api/billing-accounts/", BillingAccountViewModel[].class);
         return billingAccountViewModelResponse == null ? Collections.emptyList() : Arrays.asList(billingAccountViewModelResponse);
     }
 
