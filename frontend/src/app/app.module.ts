@@ -7,14 +7,12 @@ import { FormsModule }   from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
-import { BooksComponent } from './books/books.component';
 import { BillingAccountsComponent } from './billing-accounts/billing-accounts.component';
 import {Ng4LoadingSpinnerModule} from "ng4-loading-spinner";
 
 @NgModule({
   declarations: [
     AppComponent,
-    BooksComponent,
     BillingAccountsComponent
   ],
   imports: [
