@@ -40,9 +40,8 @@ public class BillingAccountController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteBillingAccount(@PathVariable(name = "id") Long id) {
+    public void deleteBillingAccount(@PathVariable(name = "id") Long id) {
         billingAccountService.deleteBillingAccount(id);
-        return ResponseEntity.noContent().build();
     }
 
 }
